@@ -27,14 +27,18 @@ const ARTICLE_GRAPHQL_FIELDS = `
   }
 `;
 
-async function fetchGraphQL(query: string): Promise<any> {
+async function fetchGraphQL(query: string, preview = false): Promise<any> {
   return fetch(
     `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
+        Authorization: `Bearer ${
+          preview
+            ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
+            : process.env.CONTENTFUL_ACCESS_TOKEN
+        }`,
       },
       body: JSON.stringify({ query }),
       next: { tags: ["articles"] },
@@ -47,8 +51,8 @@ function extractArticleEntries(fetchResponse: any): any[] {
 }
 
 export async function getAllArticles(
-  isDraftMode: boolean = false,
-  limit?: Number
+  limit?: Number,
+  isDraftMode: boolean = false
 ): Promise<any[]> {
   const articles = await fetchGraphQL(
     `query {
@@ -59,7 +63,8 @@ export async function getAllArticles(
             ${ARTICLE_GRAPHQL_FIELDS}
           }
         }
-      }`
+      }`,
+    isDraftMode
   );
   return extractArticleEntries(articles);
 }
@@ -77,7 +82,8 @@ export async function getArticle(
             ${ARTICLE_GRAPHQL_FIELDS}
           }
         }
-      }`
+      }`,
+    isDraftMode
   );
   return extractArticleEntries(article)[0];
 }

@@ -1,9 +1,10 @@
 import { getAllArticles, getArticle } from "@/lib/api";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { draftMode } from "next/headers";
 import Image from "next/image";
 
 export async function generateStaticParams() {
-  const allArticles = await getAllArticles(false);
+  const allArticles = await getAllArticles();
 
   return allArticles.map((article) => ({
     slug: article.slug,
@@ -15,8 +16,8 @@ export default async function KnowledgeArticlePage({
 }: {
   params: { slug: string };
 }) {
-  const article = await getArticle(params.slug);
-  console.log(article.details.json);
+  const { isEnabled } = draftMode();
+  const article = await getArticle(params.slug, isEnabled);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
