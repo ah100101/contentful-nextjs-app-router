@@ -51,14 +51,14 @@ function extractArticleEntries(fetchResponse: any): any[] {
 }
 
 export async function getAllArticles(
-  limit?: Number,
+  limit: Number = 3,
   isDraftMode: boolean = false
 ): Promise<any[]> {
   const articles = await fetchGraphQL(
     `query {
-        knowledgeArticleCollection(where:{slug_exists: true}, order: date_DESC, limit: 3, preview: ${
-          isDraftMode ? "true" : "false"
-        }) {
+        knowledgeArticleCollection(where:{slug_exists: true}, order: date_DESC, limit: ${limit}, preview: ${
+      isDraftMode ? "true" : "false"
+    }) {
           items {
             ${ARTICLE_GRAPHQL_FIELDS}
           }
