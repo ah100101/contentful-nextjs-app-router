@@ -9,7 +9,7 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <section className="w-full pt-12 md:pt-24 lg:pt-32">
+      <section className="w-full">
         <div className="mx-auto container space-y-12 px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">

@@ -21,7 +21,7 @@ export default async function KnowledgeArticlePage({
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <section className="w-full py-12 md:py-24 lg:py-32">
+      <section className="w-full">
         <div className="container space-y-12 px-4 md:px-6">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">
